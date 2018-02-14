@@ -3,12 +3,9 @@ project(highload)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(BOOST_ROOT "/path_to_boost_1_58_0")
 
-find_package(Boost 1.58.0)
+find_package(Boost 1.58.0 REQUIRED system)
+include_directories(include)
 
-if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Could not find boost!")
-endif()
-
-add_executable(highload main.cpp)
+add_executable(highload scr/main.cpp)
+target_link_libraries(highload -lboost_thread ${Boost_LIBRARIES})
