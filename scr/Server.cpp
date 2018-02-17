@@ -4,6 +4,10 @@
 
 #include "Server.h"
 
+Server::Server(boost::asio::io_service& io_service): acceptor_(io_service, tcp::endpoint(tcp::v4(), 8000)) {
+    start_accept();
+}
+
 void Server::start_accept() {
 
     Connection::pointer new_connection = Connection::create(acceptor_.get_io_service());

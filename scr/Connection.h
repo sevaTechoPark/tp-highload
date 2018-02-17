@@ -27,8 +27,7 @@ public:
 
 
 private:
-    Connection(boost::asio::io_service& io_service): socket_(io_service) {
-    }
+    Connection(boost::asio::io_service& io_service);
 
     void handle_write(const boost::system::error_code&, size_t);
 

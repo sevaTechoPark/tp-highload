@@ -13,9 +13,7 @@ using boost::asio::ip::tcp;
 
 class Server {
 public:
-    Server(boost::asio::io_service& io_service): acceptor_(io_service, tcp::endpoint(tcp::v4(), 8000)) {
-        start_accept();
-    }
+    Server(boost::asio::io_service& io_service);
 
 private:
 

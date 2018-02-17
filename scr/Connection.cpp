@@ -5,6 +5,9 @@
 #include <iostream>
 #include "Connection.h"
 
+Connection::Connection(boost::asio::io_service& io_service): socket_(io_service) {
+}
+
 void handler(const boost::system::error_code& error, std::size_t bytes_transferred) {
     std::cout << "handler" << std::endl;
 }
