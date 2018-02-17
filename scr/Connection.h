@@ -19,8 +19,8 @@ public:
         return pointer(new Connection(io_service));
     }
 
-    tcp::socket& socket() {
-        return socket_;
+    tcp::socket& getSocket() {
+        return socket;
     };
 
     void start();
@@ -29,9 +29,9 @@ public:
 private:
     Connection(boost::asio::io_service& io_service);
 
-    void handle_write(const boost::system::error_code&, size_t);
+    void handleWrite(const boost::system::error_code &, size_t);
 
-    tcp::socket socket_;
+    tcp::socket socket;
     char buffer[1024];
 };
 

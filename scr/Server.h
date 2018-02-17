@@ -17,11 +17,11 @@ public:
 
 private:
 
-    void start_accept();
+    void startAccept();
 
-    void handle_accept(Connection::pointer new_connection, const boost::system::error_code& error);
+    void handleAccept(Connection::pointer new_connection, const boost::system::error_code &error);
 
-    tcp::acceptor acceptor_;
+    tcp::acceptor acceptor;
 };
 
 
