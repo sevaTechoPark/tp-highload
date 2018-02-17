@@ -31,6 +31,8 @@ private:
 
     void handleWrite(const boost::system::error_code &, size_t);
 
+    void handleRead(const boost::system::error_code &, size_t);
+
     tcp::socket socket;
     char buffer[1024];
 };
