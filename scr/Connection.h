@@ -8,6 +8,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include "Request.h"
 
 using boost::asio::ip::tcp;
 
@@ -35,6 +36,7 @@ private:
 
     tcp::socket socket;
     char buffer[1024];
+    Request request;
 };
 
 
