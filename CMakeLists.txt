@@ -6,5 +6,5 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(Boost 1.58.0 REQUIRED system)
 include_directories(include)
 
-add_executable(highload scr/main.cpp scr/Server.cpp scr/Server.h scr/Connection.cpp scr/Connection.h)
-target_link_libraries(highload -lboost_thread ${Boost_LIBRARIES})
+add_executable(httpd scr/main.cpp scr/Server.cpp scr/Server.h scr/Connection.cpp scr/Connection.h)
+target_link_libraries(httpd -lboost_thread ${Boost_LIBRARIES})
