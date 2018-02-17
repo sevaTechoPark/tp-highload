@@ -4,8 +4,12 @@
 
 #include "Server.h"
 
-Server::Server(boost::asio::io_service& io_service): acceptor(io_service, tcp::endpoint(tcp::v4(), 8000)) {
+Server::Server(): acceptor(io_service, tcp::endpoint(tcp::v4(), 8000)) {
     startAccept();
+}
+
+void Server::start() {
+    io_service.run();
 }
 
 void Server::startAccept() {

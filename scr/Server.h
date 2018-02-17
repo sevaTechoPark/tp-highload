@@ -13,14 +13,16 @@ using boost::asio::ip::tcp;
 
 class Server {
 public:
-    Server(boost::asio::io_service& io_service);
+    Server();
 
+    void start();
 private:
 
     void startAccept();
 
     void handleAccept(Connection::pointer new_connection, const boost::system::error_code &error);
 
+    boost::asio::io_service io_service;
     tcp::acceptor acceptor;
 };
 
