@@ -10,11 +10,11 @@ Server::Server(boost::asio::io_service& io_service): acceptor(io_service, tcp::e
 
 void Server::startAccept() {
 
-    Connection::pointer new_connection = Connection::create(acceptor.get_io_service());
+    Connection::pointer newConnection = Connection::create(acceptor.get_io_service());
 
     acceptor.async_accept(
-            new_connection->getSocket(),
-            boost::bind(&Server::handleAccept, this, new_connection,
+            newConnection->getSocket(),
+            boost::bind(&Server::handleAccept, this, newConnection,
             boost::asio::placeholders::error)
     );
 }
