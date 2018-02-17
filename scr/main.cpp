@@ -14,6 +14,10 @@ std::string make_daytime_string()
     return std::ctime(&now);
 }
 
+void handler(const boost::system::error_code& error, std::size_t bytes_transferred) {
+    std::cout << "handler" << std::endl;
+}
+
 class tcp_connection
     // Using shared_ptr and enable_shared_from_this
     // because we want to keep the tcp_connection object alive
@@ -41,6 +45,8 @@ public:
         // as we need to keep the data valid
         // until the asynchronous operation is complete.
         m_message = make_daytime_string();
+
+        socket_.async_receive(boost::asio::buffer(buffer, 1024), 0, handler);
 
         // When initiating the asynchronous operation,
         // and if using boost::bind(),
@@ -71,6 +77,7 @@ private:
 
     tcp::socket socket_;
     std::string m_message;
+    char buffer[1024];
 };
 
 class tcp_server
