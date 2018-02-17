@@ -36,4 +36,5 @@ void Connection::handleWrite(const boost::system::error_code &error_code, size_t
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
     std::cout << buffer << std::endl;
     std::cout << size << std::endl;
+    memset(buffer, 0, 1024);
 }
