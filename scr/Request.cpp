@@ -17,9 +17,6 @@ const string filename = "160313.jpg";
 
 std::string Request::parseRequest(string request, size_t size) {
     cout << request;
-    for (size_t i = 0; i < 5; i++) {
-        cout << endl;
-    }
 
     std::istringstream iss(request);
     iss >> method;

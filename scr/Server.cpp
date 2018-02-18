@@ -4,7 +4,8 @@
 
 #include "Server.h"
 
-Server::Server(): acceptor(io_service, tcp::endpoint(tcp::v4(), 8000)) {
+Server::Server(int port): acceptor(io_service, tcp::endpoint(tcp::v4(), port)) {
+    this->port = port;
     startAccept();
 }
 
