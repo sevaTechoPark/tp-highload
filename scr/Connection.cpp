@@ -18,21 +18,12 @@ void Connection::start() {
     );
 }
 
-void Connection::handleWrite(const boost::system::error_code &error_code, size_t size) {
-    if (error_code) {
-        std::cerr << "something wrong\n" << error_code;
-    }
-}
-
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
-    std::string response = request.parseRequest(std::string(buffer), size);
-
-    boost::asio::async_write(
-            socket, boost::asio::buffer(response),
-            boost::bind(&Connection::handleWrite, shared_from_this(),
-                        boost::asio::placeholders::error,
-                        boost::asio::placeholders::bytes_transferred)
-    );
+    request.parseRequest(std::string(buffer), size, std::bind(&Connection::doWrite, shared_from_this(), std::placeholders::_1));
 
     memset(buffer, 0, 1024);
+}
+
+void Connection::doWrite(const std::string &message) {
+    socket.write_some(boost::asio::buffer(message));
 }

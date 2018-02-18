@@ -24,8 +24,6 @@ private:
 
     boost::asio::io_service io_service;
     tcp::acceptor acceptor;
-
-    int port;
 };
 
 

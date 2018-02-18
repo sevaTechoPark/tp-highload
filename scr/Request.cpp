@@ -6,23 +6,23 @@
 #include "Request.h"
 #include <sstream>
 #include <vector>
+#include <boost/asio.hpp>
 
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
 
-const string filedir = "/home/seva/dev/technopark/http-test-suite/httptest";
-const string filename = "160313.jpg";
+const string file = "/home/seva/dev/technopark/http-test-suite/httptest/160313.jpg";
 
-std::string Request::parseRequest(string request, size_t size) {
+void Request::parseRequest(string request, size_t size, std::function<void (const string&)> callback) {
     cout << request;
 
     std::istringstream iss(request);
     iss >> method;
 
     if (!checkMethod()) {
-        return string("not allowed method");
+        // return string("not allowed method");
     }
 
     iss >> url >> version;
@@ -35,7 +35,7 @@ std::string Request::parseRequest(string request, size_t size) {
     iss >> contentLength;
 
     cout.flush();
-    return string("response :)");
+    // return string("response :)");
 }
 
 bool Request::checkMethod() {

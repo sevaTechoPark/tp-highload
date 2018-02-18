@@ -6,12 +6,13 @@
 #define HIGHLOAD_REQUEST_H
 
 #include <cstdlib>
+#include <boost/asio.hpp>
 
 using std::string;
 
 class Request {
 public:
-    string parseRequest(string, size_t);
+    void parseRequest(string, size_t, std::function<void (const string&)>);
 
     bool checkMethod();
 private:

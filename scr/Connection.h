@@ -30,9 +30,9 @@ public:
 private:
     Connection(boost::asio::io_service& io_service);
 
-    void handleWrite(const boost::system::error_code &, size_t);
-
     void handleRead(const boost::system::error_code &, size_t);
+
+    void doWrite(const std::string &);
 
     tcp::socket socket;
     char buffer[1024];
