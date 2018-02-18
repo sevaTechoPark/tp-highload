@@ -4,7 +4,7 @@
 
 #include "Server.h"
 
-Server::Server(int port): acceptor(io_service, tcp::endpoint(tcp::v4(), port)) {
+Server::Server(int port, string host): acceptor(io_service, tcp::endpoint(boost::asio::ip::address::from_string(host), port)) {
     startAccept();
 }
 
@@ -14,7 +14,7 @@ void Server::start() {
 
 void Server::startAccept() {
 
-    Connection::pointer newConnection = Connection::create(acceptor.get_io_service());
+    Connection::pointer newConnection = Connection::create(acceptor.get_io_service(), rootDir);
 
     acceptor.async_accept(
             newConnection->getSocket(),

@@ -10,7 +10,9 @@ using std::string;
 
 class Response {
 public:
-    string notAllowed = string("HTTP/1.1 405 Method Not Allowed");
+    const string notAllowed = string("HTTP/1.1 405 Method Not Allowed");
+    const string ok = string("HTTP/1.1 200 OK");
+    const string notFound = string("HTTP/1.1 404 Not Found");
 };
 
 

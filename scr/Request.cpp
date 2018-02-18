@@ -15,6 +15,10 @@ using std::endl;
 
 const string file = "/home/seva/dev/technopark/http-test-suite/httptest/160313.jpg";
 
+Request::Request(string dir) {
+    rootDir = dir;
+}
+
 void Request::parseRequest(string request, size_t size, std::function<void (const string&)> callback) {
     cout << request;
 
@@ -33,9 +37,6 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss.ignore(100, '\n'); // \n after identity
     iss.ignore(100, ':');  // Content-Length:
     iss >> contentLength;
-
-    cout.flush();
-    
 }
 
 bool Request::checkMethod() {

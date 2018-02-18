@@ -13,7 +13,7 @@ using boost::asio::ip::tcp;
 
 class Server {
 public:
-    Server(int port);
+    Server(int port, std::string);
 
     void start();
 private:
@@ -24,6 +24,8 @@ private:
 
     boost::asio::io_service io_service;
     tcp::acceptor acceptor;
+
+    string rootDir = "/home/seva/dev/technopark/http-test-suite";
 };
 
 

@@ -13,6 +13,8 @@ using std::string;
 
 class Request {
 public:
+    Request(string);
+
     void parseRequest(string, size_t, std::function<void (const string&)>);
 
     bool checkMethod();
@@ -25,6 +27,8 @@ private:
 
     const string GET = "GET";
     const string HEAD = "HEAD";
+
+    string rootDir;
 
     Response response;
 };

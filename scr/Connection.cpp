@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Connection.h"
 
-Connection::Connection(boost::asio::io_service& io_service): socket(io_service) {
+Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), request(rootDir) {
 }
 
 void Connection::start() {
