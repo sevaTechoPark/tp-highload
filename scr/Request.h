@@ -29,7 +29,6 @@ private:
     const string HEAD = "HEAD";
 
     string rootDir;
-
     Response response;
 };
 

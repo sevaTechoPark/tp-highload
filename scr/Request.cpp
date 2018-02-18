@@ -4,16 +4,13 @@
 
 #include <iostream>
 #include "Request.h"
-#include <sstream>
-#include <vector>
-#include <boost/asio.hpp>
 
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
 
-const string file = "/home/seva/dev/technopark/http-test-suite/httptest/160313.jpg";
+string file = "/home/seva/dev/technopark/http-test-suite/httptest/160313.jpg";
 
 Request::Request(string dir) {
     rootDir = dir;
@@ -37,6 +34,8 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss.ignore(100, '\n'); // \n after identity
     iss.ignore(100, ':');  // Content-Length:
     iss >> contentLength;
+
+    response.sendFile(file, callback);
 }
 
 bool Request::checkMethod() {
