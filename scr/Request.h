@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 #include <boost/asio.hpp>
+#include "Response.h"
 
 using std::string;
 
@@ -24,6 +25,8 @@ private:
 
     const string GET = "GET";
     const string HEAD = "HEAD";
+
+    Response response;
 };
 
 

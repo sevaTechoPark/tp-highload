@@ -22,7 +22,7 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss >> method;
 
     if (!checkMethod()) {
-        // return string("not allowed method");
+        callback(response.notAllowed);
     }
 
     iss >> url >> version;
@@ -35,7 +35,7 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss >> contentLength;
 
     cout.flush();
-    // return string("response :)");
+    
 }
 
 bool Request::checkMethod() {
