@@ -11,7 +11,7 @@ Connection::Connection(boost::asio::io_service &io_service, string rootDir): soc
 void Connection::start() {
 
     socket.async_receive(
-            boost::asio::buffer(buffer, 1024),
+            boost::asio::buffer(buffer, bufferSize),
             boost::bind(&Connection::handleRead, shared_from_this(),
             boost::asio::placeholders::error,
             boost::asio::placeholders::bytes_transferred)
@@ -19,11 +19,20 @@ void Connection::start() {
 }
 
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
-    request.parseRequest(std::string(buffer), size, std::bind(&Connection::doWrite, shared_from_this(), std::placeholders::_1));
+    request.parseRequest(std::string(buffer), size,
+                         std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
+                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1));
 
     memset(buffer, 0, 1024);
 }
 
-void Connection::doWrite(const std::string &message) {
-    socket.write_some(boost::asio::buffer(message));
+void Connection::sendMessage(const std::string &message) {
+     socket.write_some(boost::asio::buffer(message));
 }
+
+void Connection::sendFile(int fd){
+    std::cerr << fd;
+    startOfft = 0;
+    sendfile(socket.native(), fd, &startOfft, count - startOfft);
+}
+

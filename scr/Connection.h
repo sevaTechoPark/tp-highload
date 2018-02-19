@@ -8,6 +8,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 #include <boost/bind.hpp>
+#include <sys/sendfile.h>
 #include "Request.h"
 
 using boost::asio::ip::tcp;
@@ -32,11 +33,19 @@ private:
 
     void handleRead(const boost::system::error_code &, size_t);
 
-    void doWrite(const std::string &);
+    void sendMessage(const std::string &);
+
+    void sendFile(int);
 
     tcp::socket socket;
-    char buffer[1024];
+
+    static const size_t bufferSize = 1024;
+    char buffer[bufferSize];
+
     Request request;
+
+    off_t startOfft;
+    size_t count;
 };
 
 

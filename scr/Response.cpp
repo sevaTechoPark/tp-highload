@@ -3,13 +3,27 @@
 //
 
 #include "Response.h"
-#include <fstream>
+//#include <fstream>
+#include "boost/filesystem/operations.hpp"
+#include "boost/filesystem/path.hpp"
+#include "boost/progress.hpp"
 
-void Response::sendFile(string path, std::function<void (const string&)> callback) {
 
-    std::ifstream in(path);
+namespace fs = boost::filesystem;
 
-    while (size_t count = static_cast<size_t>(in.readsome(buffer, bufferSize))) {
-        callback(std::string(buffer, count));
+void Response::sendFile(string rootDir, string path, std::function<void (const string&)> sendHeader, std::function<void (int)> sendFile) {
+
+    fs::path p(rootDir + path);
+
+    if (boost::filesystem::is_regular_file(p)) {
+        int fd = open(p.string().c_str(), O_RDONLY);
+        sendFile(fd);
+    } else {
+        sendHeader(notFound);
     }
+//    std::ifstream in(p);
+//
+//    while (size_t count = static_cast<size_t>(in.readsome(buffer, bufferSize))) {
+//        sendHeader(std::string(buffer, count));
+//    }
 }
