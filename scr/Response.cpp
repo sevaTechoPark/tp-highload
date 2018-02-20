@@ -7,25 +7,37 @@
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/path.hpp"
 #include "boost/progress.hpp"
-
+#include "boost/algorithm/string.hpp"
 
 namespace fs = boost::filesystem;
 
 
 void Response::sendFile(string rootDir, string path, std::function<void (const string&)> sendHeader, std::function<void (int)> sendFile) {
 
-    fs::path p(rootDir + path);
-    if (boost::filesystem::is_regular_file(p)) {
+    fs::path relativePath(rootDir + path);
 
-        int fd = open(p.string().c_str(), O_RDONLY);
-//        std::cout <<  p.string() << " " << p.compare(rootDir) << std::endl;
-        sendFile(fd);
-    } else {
-        sendHeader(notFound);
+    if (is_directory(relativePath)) { // Directory index file name index.html
+        relativePath /= "index.html";
     }
-//    std::ifstream in(p);
-//
-//    while (size_t count = static_cast<size_t>(in.readsome(buffer, bufferSize))) {
-//        sendHeader(std::string(buffer, count));
-//    }
+
+    boost::system::error_code ec;
+    fs::path absolutePath = canonical(relativePath, rootDir, ec);
+    if (ec) { // this file/dir does not exist
+        sendHeader(notFound);
+        return;
+    }
+
+    if(!checkRootDir(absolutePath.string(), rootDir)) {
+        sendHeader(notFound); // this file over the root_path
+        return;
+    }
+
+    boost::uintmax_t filesize = file_size(relativePath, ec);
+    
+    int fd = open(relativePath.string().c_str(), O_RDONLY);
+    sendFile(fd);
+}
+
+bool Response::checkRootDir(string rootDir, string path) {
+    return boost::algorithm::contains(rootDir, path);
 }

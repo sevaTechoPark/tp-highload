@@ -34,7 +34,13 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss.ignore(100, ':');  // Content-Length:
     iss >> contentLength;
 
-    response.sendFile(rootDir, url, sendHeader, sendFile);
+    if (method == GET) {
+        response.sendFile(rootDir, url, sendHeader, sendFile);
+        return;
+    } else if (method == HEAD) {
+        //
+    }
+
 }
 
 bool Request::checkMethod() {
