@@ -14,21 +14,37 @@ private:
 //    static const size_t bufferSize = 1024;
 //    char buffer[bufferSize];
     bool checkRootDir(string, string);
+
+    string typeDefinition(string);
+
+    string mainHeaders();
+
 public:
-    const string notAllowed = string("HTTP/1.1 405 Method Not Allowed");
-    const string ok = string("HTTP/1.1 200 OK");
-    const string notFound = string("HTTP/1.1 404 Not Found");
+    const string headerNotAllowed = string("HTTP/1.1 405 Method Not Allowed\r\n");
+    const string headerOk = string("HTTP/1.1 200 OK\r\n");
+    const string headerNotFound = string("HTTP/1.1 404 Not Found\r\n");
+    const string headerForbidden = string("HTTP/1.1 403 Forbidden\r\n");
 
-    const string contentLength = string("Content-Length: ");
+    const string headerDate = string("Date: ");
+    const string headerServer = string("Server: Seva/0.1 (Unix)\r\n");
+    const string headerConnection = string("Connection: close\r\n");
+    const string headerContentLength = string("Content-Length: ");
 
-    const string contentTypeHtml = string("Content-Type: text/html");
-    const string contentTypeCss = string("Content-Type: text/css");
-    const string contentTypeJs = string("Content-Type: application/javascript");
-    const string contentTypeGif = string("Content-Type: image/gif");
-    const string contentTypeJpeg = string("Content-Type: image/jpeg");
-    const string contentTypePng = string("Content-Type: image/png");
+    const string contentTypeHtml = string("Content-Type: text/html\r\n");
+    const string contentTypeCss = string("Content-Type: text/css\r\n");
+    const string contentTypeJs = string("Content-Type: application/javascript\r\n");
+    const string contentTypeGif = string("Content-Type: image/gif\r\n");
+    const string contentTypeJpeg = string("Content-Type: image/jpeg\r\n");
+    const string contentTypePng = string("Content-Type: image/png\r\n");
+    const string contentTypeSwf = string("Content-Type: application/x-shockwave-flash\r\n");
 
-    void sendFile(string, string, std::function<void (const string&)>, std::function<void (int)>);
+    void sendFile(string, string, std::function<void (const string&)>, std::function<void (int, size_t)>);
+
+//    void get(string, string, std::function<void (const string&)>, std::function<void (int)>);
+//    void head(string, string, std::function<void (const string&)>, std::function<void (int)>);
+    void notFound(std::function<void (const string&)>);
+    void notAllowed(std::function<void (const string&)>);
+    void forbidden(std::function<void (const string&)>);
 };
 
 

@@ -21,7 +21,7 @@ void Connection::start() {
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
     request.parseRequest(std::string(buffer), size,
                          std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
-                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1));
+                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 
     memset(buffer, 0, 1024);
 }
@@ -30,8 +30,9 @@ void Connection::sendMessage(const std::string &message) {
      socket.write_some(boost::asio::buffer(message));
 }
 
-void Connection::sendFile(int fd){
+void Connection::sendFile(int fd, size_t size){
     startOfft = 0;
-    sendfile(socket.native(), fd, &startOfft, count - startOfft);
+    sendfile(socket.native(), fd, &startOfft, size - startOfft);
+    close(socket.native());
 }
 

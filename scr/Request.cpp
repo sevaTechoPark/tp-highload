@@ -14,14 +14,14 @@ Request::Request(string dir) {
     rootDir = dir;
 }
 
-void Request::parseRequest(string request, size_t size, std::function<void (const string&)> sendHeader, std::function<void (int)> sendFile) {
+void Request::parseRequest(string request, size_t size, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile) {
 //    cout << request;
 
     std::istringstream iss(request);
     iss >> method;
 
     if (!checkMethod()) {
-        sendHeader(response.notAllowed);
+        response.notAllowed(sendHeader);
         return;
     }
 

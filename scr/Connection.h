@@ -35,7 +35,7 @@ private:
 
     void sendMessage(const std::string &);
 
-    void sendFile(int);
+    void sendFile(int, size_t);
 
     tcp::socket socket;
 

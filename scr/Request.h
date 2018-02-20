@@ -15,7 +15,7 @@ class Request {
 public:
     Request(string);
 
-    void parseRequest(string, size_t, std::function<void (const string&)>, std::function<void (int)>);
+    void parseRequest(string, size_t, std::function<void (const string&)>, std::function<void (int, size_t)>);
 
     bool checkMethod();
 private:
