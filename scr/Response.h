@@ -13,6 +13,7 @@ class Response {
 //private:
 //    static const size_t bufferSize = 1024;
 //    char buffer[bufferSize];
+
 public:
     const string notAllowed = string("HTTP/1.1 405 Method Not Allowed");
     const string ok = string("HTTP/1.1 200 OK");

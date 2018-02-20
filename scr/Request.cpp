@@ -15,13 +15,14 @@ Request::Request(string dir) {
 }
 
 void Request::parseRequest(string request, size_t size, std::function<void (const string&)> sendHeader, std::function<void (int)> sendFile) {
-    cout << request;
+//    cout << request;
 
     std::istringstream iss(request);
     iss >> method;
 
     if (!checkMethod()) {
         sendHeader(response.notAllowed);
+        return;
     }
 
     iss >> url >> version;

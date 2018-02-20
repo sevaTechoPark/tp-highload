@@ -31,7 +31,6 @@ void Connection::sendMessage(const std::string &message) {
 }
 
 void Connection::sendFile(int fd){
-    std::cerr << fd;
     startOfft = 0;
     sendfile(socket.native(), fd, &startOfft, count - startOfft);
 }
