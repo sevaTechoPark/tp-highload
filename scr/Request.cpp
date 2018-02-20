@@ -35,10 +35,10 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss >> contentLength;
 
     if (method == GET) {
-        response.sendFile(rootDir, url, sendHeader, sendFile);
+        response.get(rootDir, url, sendHeader, sendFile, true);
         return;
     } else if (method == HEAD) {
-        //
+        response.get(rootDir, url, sendHeader, sendFile, false);
     }
 
 }
