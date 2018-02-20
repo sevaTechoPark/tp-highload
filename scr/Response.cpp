@@ -120,7 +120,6 @@ void Response::get(string rootDir, string path, std::function<void (const string
         return;
     }
 
-
     boost::uintmax_t filesize = file_size(absolutePath, ec);
 
     string contentType = typeDefinition(absolutePath.string());
