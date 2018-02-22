@@ -45,7 +45,6 @@ private:
     Request request;
 
     off_t startOfft;
-    size_t count;
 };
 
 

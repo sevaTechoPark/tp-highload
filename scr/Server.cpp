@@ -9,7 +9,7 @@ Server::Server(int port, string host): acceptor(io_service, tcp::endpoint(boost:
 }
 
 void Server::start() {
-    for (std::size_t i = 0; i < 4; ++i) {
+    for (std::size_t i = 0; i < 1; ++i) {
         boost::shared_ptr<boost::thread> thread(new boost::thread(boost::bind(&boost::asio::io_service::run, &io_service)));
         thread->join();
     }
@@ -22,8 +22,7 @@ void Server::startAccept() {
 
     acceptor.async_accept(
             newConnection->getSocket(),
-            boost::bind(&Server::handleAccept, this, newConnection,
-            boost::asio::placeholders::error)
+            boost::bind(&Server::handleAccept, this, newConnection, boost::asio::placeholders::error)
     );
 }
 
