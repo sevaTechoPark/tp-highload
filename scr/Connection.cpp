@@ -6,7 +6,6 @@
 #include "Connection.h"
 
 Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), request(rootDir) {
-
 }
 
 void Connection::start() {
@@ -20,6 +19,9 @@ void Connection::start() {
 }
 
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
+    boost::asio::socket_base::keep_alive option(true);
+    socket.set_option(option);
+
     request.parseRequest(std::string(buffer), size,
                          std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
                          std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
@@ -38,6 +40,5 @@ void Connection::sendFile(int fd, size_t size) {
     // todo TCP_CORK
     off_t startOff = 0;
     sendfile(socket.native_handle(), fd, &startOff, size - startOff);
-    close(socket.native_handle());
 }
 

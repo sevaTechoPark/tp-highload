@@ -9,7 +9,7 @@ Server::Server(int port, string host): acceptor(io_service, tcp::endpoint(boost:
 }
 
 void Server::start() {
-    for (std::size_t i = 0; i < 4; ++i ) {
+    for (std::size_t i = 0; i < 4; i++) {
         threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
     }
     threads.join_all();
