@@ -9,15 +9,14 @@ Server::Server(int port, string host): acceptor(io_service, tcp::endpoint(boost:
 }
 
 void Server::start() {
-    for (std::size_t i = 0; i < 1; ++i) {
-        boost::shared_ptr<boost::thread> thread(new boost::thread(boost::bind(&boost::asio::io_service::run, &io_service)));
-        thread->join();
+    for (std::size_t i = 0; i < 4; ++i ) {
+        threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
     }
+    threads.join_all();
     // io_service.run();
 }
 
 void Server::startAccept() {
-
     Connection::pointer newConnection = Connection::create(acceptor.get_io_service(), rootDir);
 
     acceptor.async_accept(

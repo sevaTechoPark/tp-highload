@@ -43,8 +43,6 @@ private:
     char buffer[bufferSize];
 
     Request request;
-
-    off_t startOfft;
 };
 
 

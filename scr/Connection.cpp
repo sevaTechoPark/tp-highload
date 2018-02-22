@@ -36,8 +36,8 @@ void Connection::sendMessage(const std::string &message) {
 
 void Connection::sendFile(int fd, size_t size) {
     // todo TCP_CORK
-    startOfft = 0;
-    sendfile(socket.native_handle(), fd, &startOfft, size - startOfft);
+    off_t startOff = 0;
+    sendfile(socket.native_handle(), fd, &startOff, size - startOff);
     close(socket.native_handle());
 }
 

@@ -25,7 +25,7 @@ private:
 
     boost::asio::io_service io_service;
     tcp::acceptor acceptor;
-
+    boost::thread_group threads;
     string rootDir = "/home/seva/dev/technopark/http-test-suite";
 };
 
