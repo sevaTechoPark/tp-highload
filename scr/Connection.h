@@ -41,7 +41,7 @@ private:
 
     tcp::socket socket;
 
-    static const size_t bufferSize = 1024;
+    static const size_t bufferSize = 2048;
     char buffer[bufferSize];
 
     Request request;

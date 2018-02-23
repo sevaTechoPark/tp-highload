@@ -34,7 +34,7 @@ void Connection::handleWrite(const boost::system::error_code& error, std::size_t
 
 void Connection::sendMessage(const std::string &message) {
      socket.async_write_some(
-             boost::asio::buffer(message),
+             boost::asio::buffer(message.c_str(), message.size()),
              strand.wrap(boost::bind(&Connection::handleWrite, shared_from_this(),
                                      boost::asio::placeholders::error,
                                      boost::asio::placeholders::bytes_transferred)
