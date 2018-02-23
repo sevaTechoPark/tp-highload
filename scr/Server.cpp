@@ -10,17 +10,12 @@ Server::Server(int port, string host, size_t threads): acceptor(io_service, tcp:
 
 void Server::start() {
     std::cout << "Server start with " << threadsCount << " CPU" << std::endl;
-    std::vector<boost::shared_ptr<boost::thread> > threads;
-    for (std::size_t i = 0; i < threadsCount; ++i)
-    {
-        boost::shared_ptr<boost::thread> thread(new boost::thread(
-                boost::bind(&boost::asio::io_service::run, &io_service)));
-        threads.push_back(thread);
-    }
 
-    // Wait for all threads in the pool to exit.
-    for (std::size_t i = 0; i < threads.size(); ++i)
-        threads[i]->join();
+    for (std::size_t i = 0; i < threadsCount; i++) {
+        threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
+    }
+    boost::this_thread::sleep( boost::posix_time::millisec(30000));
+    threads.join_all();
 }
 
 void Server::startAccept() {
