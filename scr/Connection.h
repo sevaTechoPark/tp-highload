@@ -33,6 +33,8 @@ private:
 
     void handleRead(const boost::system::error_code &, size_t);
 
+    void handleWrite(const boost::system::error_code &, size_t);
+
     void sendMessage(const std::string &);
 
     void sendFile(int, size_t);
@@ -43,6 +45,8 @@ private:
     char buffer[bufferSize];
 
     Request request;
+    boost::asio::io_service::strand strand;
+
 };
 
 

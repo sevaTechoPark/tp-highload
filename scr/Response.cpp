@@ -129,7 +129,7 @@ void Response::get(string rootDir, string path, std::function<void (const string
     if (flag) {
         int fd = open(absolutePath.c_str(), O_RDONLY);
         sendFile(fd, filesize);
-        close(fd);
+//        close(fd);
     }
 }
 
