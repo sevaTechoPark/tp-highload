@@ -6,6 +6,7 @@
 #include "Connection.h"
 
 Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), request(rootDir) {
+    // todo TCP_CORK setsockopt
 }
 
 void Connection::start() {
@@ -37,7 +38,6 @@ void Connection::sendMessage(const std::string &message) {
 }
 
 void Connection::sendFile(int fd, size_t size) {
-    // todo TCP_CORK
     off_t startOff = 0;
     sendfile(socket.native_handle(), fd, &startOff, size - startOff);
 }

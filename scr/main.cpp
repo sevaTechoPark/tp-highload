@@ -1,13 +1,40 @@
 #include <iostream>
+#include <fstream>
 #include "Server.h"
 
-int main(int argc, char **argv) {
+int main() {
     try {
-        if (argc < 3) {
-            return 1;
+        int port;
+        string root_dir;
+        int threadsCount;
+
+        std::ifstream in("../.config");
+        char* c = new char[100];
+        std::streamsize n = 100;
+
+        for (size_t i = 0; i < 3 && in.good(); i++) {
+            in.getline(c, n);
+            string data(c);
+            std::size_t found = data.find_last_of('=');
+            data = data.substr(found + 2);
+
+            switch (i) {
+                case 0:
+                    port = std::atoi(data.c_str());
+                    break;
+                case 1:
+                    root_dir = data;
+                    break;
+                case 2:
+                    threadsCount = std::atoi(data.c_str());
+                    break;
+            }
         }
 
-        Server server(std::atoi(argv[1]), string(argv[2]));
+        in.close();
+        delete (c);
+
+        Server server(port, root_dir, threadsCount);
         server.start();
     }
     catch (std::exception& e) {

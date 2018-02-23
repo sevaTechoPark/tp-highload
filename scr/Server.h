@@ -14,7 +14,7 @@ using boost::asio::ip::tcp;
 
 class Server {
 public:
-    Server(int port, std::string);
+    Server(int, std::string, size_t);
 
     void start();
 private:
@@ -26,7 +26,8 @@ private:
     boost::asio::io_service io_service;
     tcp::acceptor acceptor;
     boost::thread_group threads;
-    string rootDir = "/home/seva/dev/technopark/http-test-suite";
+    size_t threadsCount;
+    string rootDir;
 };
 
 

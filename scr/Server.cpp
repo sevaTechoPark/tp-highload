@@ -4,16 +4,15 @@
 
 #include "Server.h"
 
-Server::Server(int port, string host): acceptor(io_service, tcp::endpoint(boost::asio::ip::address::from_string(host), port)) {
+Server::Server(int port, string host, size_t threads): acceptor(io_service, tcp::endpoint(tcp::v4(), port)), rootDir(host), threadsCount(threads) {
     startAccept();
 }
 
 void Server::start() {
-    for (std::size_t i = 0; i < 4; i++) {
+    for (std::size_t i = 0; i < threadsCount; i++) {
         threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
     }
     threads.join_all();
-    // io_service.run();
 }
 
 void Server::startAccept() {
