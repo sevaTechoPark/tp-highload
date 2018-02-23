@@ -20,9 +20,6 @@ void Connection::start() {
 }
 
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
-    boost::asio::socket_base::keep_alive option(true);
-    socket.set_option(option);
-
     request.parseRequest(std::string(buffer), size,
                          std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
                          std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
