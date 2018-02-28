@@ -27,6 +27,7 @@ public:
 
     void start();
 
+    ~Connection();
 
 private:
     Connection(boost::asio::io_service &, string);

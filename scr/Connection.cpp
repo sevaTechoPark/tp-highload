@@ -9,6 +9,9 @@ Connection::Connection(boost::asio::io_service &io_service, string rootDir): soc
     // todo TCP_CORK setsockopt
 }
 
+Connection::~Connection() {
+   socket.close();
+}
 
 void Connection::start() {
     socket.async_read_some(
@@ -32,7 +35,7 @@ void Connection::handleWrite(const boost::system::error_code& error, std::size_t
 
 void Connection::sendMessage(const std::string &message) {
      socket.async_write_some(
-             boost::asio::buffer(message.c_str(), message.size()),
+             boost::asio::buffer(message, message.size()),
              strand.wrap(boost::bind(&Connection::handleWrite, shared_from_this(),
                                      boost::asio::placeholders::error,
                                      boost::asio::placeholders::bytes_transferred)
