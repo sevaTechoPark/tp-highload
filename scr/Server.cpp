@@ -18,8 +18,8 @@ void Server::start() {
 }
 
 void Server::startAccept() {
-    Connection::pointer newConnection = Connection::create(acceptor.get_io_service(), rootDir);
-//     uncomment this to see how many threads
+    Connection::pointer newConnection(new Connection(io_service, rootDir));
+//    uncomment this to see how many threads
 //    std::cout << "startAccept" << std::endl;
 //    boost::this_thread::sleep(boost::posix_time::millisec(6000));
 

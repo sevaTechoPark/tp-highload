@@ -14,6 +14,11 @@ Connection::~Connection() {
 }
 
 void Connection::start() {
+//    std::cout << socket.non_blocking() << std::endl;
+//    tcp::socket::non_blocking_io non_blocking_io(true);
+//    socket.io_control(non_blocking_io);
+//    std::cout << socket.non_blocking() << std::endl;
+
     socket.async_read_some(
             boost::asio::buffer(buffer, bufferSize),
             boost::bind(&Connection::handleRead, shared_from_this(),
