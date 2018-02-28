@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <boost/thread/thread.hpp>
 #include "Connection.h"
 
 Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), strand(io_service), request(rootDir) {
@@ -14,24 +15,21 @@ Connection::~Connection() {
 }
 
 void Connection::start() {
-//    std::cout << socket.non_blocking() << std::endl;
-//    tcp::socket::non_blocking_io non_blocking_io(true);
-//    socket.io_control(non_blocking_io);
-//    std::cout << socket.non_blocking() << std::endl;
+    socket.non_blocking(true);
 
     socket.async_read_some(
             boost::asio::buffer(buffer, bufferSize),
-            boost::bind(&Connection::handleRead, shared_from_this(),
+            strand.wrap(boost::bind(&Connection::handleRead, shared_from_this(),
                                     boost::asio::placeholders::error,
-                                    boost::asio::placeholders::bytes_transferred)
+                                    boost::asio::placeholders::bytes_transferred))
 
     );
 }
 
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
-//    request.parseRequest(std::string(buffer), size,
-//                         std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
-//                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
+    request.parseRequest(std::string(buffer), size,
+                         std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
+                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 }
 
 void Connection::handleWrite(const boost::system::error_code& error, std::size_t bytes_transferred) {
@@ -50,6 +48,6 @@ void Connection::sendMessage(const std::string &message) {
 
 void Connection::sendFile(int fd, size_t size) {
     off_t startOff = 0;
-    sendfile(socket.native_handle(), fd, &startOff, size - startOff);
+    sendfile(socket.native_handle(), fd, &startOff, size);
 }
 

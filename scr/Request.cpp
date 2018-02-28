@@ -26,13 +26,13 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     }
 
     iss >> url >> version;
-    iss.ignore(100, '\n'); // \n after HTTP/1.1
-    iss.ignore(100, '\n'); // Host: localhost:8000
-    iss.ignore(100, ':');  // Accept-Encoding:
-    iss >> encoding;
-    iss.ignore(100, '\n'); // \n after identity
-    iss.ignore(100, ':');  // Content-Length:
-    iss >> contentLength;
+//    iss.ignore(100, '\n'); // \n after HTTP/1.1
+//    iss.ignore(100, '\n'); // Host: localhost:8000
+//    iss.ignore(100, ':');  // Accept-Encoding:
+//    iss >> encoding;
+//    iss.ignore(100, '\n'); // \n after identity
+//    iss.ignore(100, ':');  // Content-Length:
+//    iss >> contentLength;
 
     if (method == GET) {
         response.get(rootDir, url, sendHeader, sendFile, true);

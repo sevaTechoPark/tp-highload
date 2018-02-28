@@ -16,7 +16,7 @@ using boost::asio::ip::tcp;
 class Connection: public boost::enable_shared_from_this<Connection> {
 public:
     typedef boost::shared_ptr<Connection> pointer;
-    
+
     tcp::socket& getSocket() {
         return socket;
     };
@@ -26,6 +26,7 @@ public:
     Connection(boost::asio::io_service &, string);
 
     ~Connection();
+
 private:
 
     void handleRead(const boost::system::error_code &, size_t);
@@ -38,7 +39,7 @@ private:
 
     tcp::socket socket;
 
-    static const size_t bufferSize = 8192;
+    static const size_t bufferSize = 1024;
     char buffer[bufferSize];
 
     Request request;

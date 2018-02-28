@@ -5,6 +5,8 @@
 #include "Server.h"
 
 Server::Server(int port, string host, size_t threads): acceptor(io_service, tcp::endpoint(tcp::v4(), port)), rootDir(host), threadsCount(threads) {
+    acceptor.non_blocking(true);
+    acceptor.set_option(tcp::acceptor::reuse_address(true));
 }
 
 void Server::start() {
@@ -12,16 +14,13 @@ void Server::start() {
         threadPool.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
         io_service.post(boost::bind(&Server::startAccept, this));
     }
-    boost::this_thread::sleep(boost::posix_time::millisec(6000));
     std::cout << "Server start with " << threadsCount << " CPU" << std::endl;
     threadPool.join_all();
 }
 
 void Server::startAccept() {
     Connection::pointer newConnection(new Connection(io_service, rootDir));
-//    uncomment this to see how many threads
-//    std::cout << "startAccept" << std::endl;
-//    boost::this_thread::sleep(boost::posix_time::millisec(6000));
+//    boost::this_thread::get_id() uncomment this to see how many threads
 
     acceptor.async_accept(
             newConnection->getSocket(),
