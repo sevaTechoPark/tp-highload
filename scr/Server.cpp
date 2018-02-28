@@ -5,7 +5,7 @@
 #include "Server.h"
 
 Server::Server(int port, string host, size_t threads): acceptor(io_service, tcp::endpoint(tcp::v4(), port)), rootDir(host), threadsCount(threads) {
-    startAccept();
+//    startAccept();
 }
 
 void Server::start() {
@@ -13,8 +13,9 @@ void Server::start() {
 
     for (std::size_t i = 0; i < threadsCount; i++) {
         threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
+        io_service.post(boost::bind(&Server::startAccept, this));
     }
-    boost::this_thread::sleep( boost::posix_time::millisec(30000));
+    boost::this_thread::sleep( boost::posix_time::millisec(6000));
     threads.join_all();
 }
 

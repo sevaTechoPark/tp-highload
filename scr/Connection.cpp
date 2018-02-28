@@ -24,8 +24,6 @@ void Connection::handleRead(const boost::system::error_code &error_code, size_t 
     request.parseRequest(std::string(buffer), size,
                          std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
                          std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
-
-//    memset(buffer, 0, bufferSize);
 }
 
 void Connection::handleWrite(const boost::system::error_code& error, std::size_t bytes_transferred) {
