@@ -25,7 +25,7 @@ private:
 
     boost::asio::io_service io_service;
     tcp::acceptor acceptor;
-    boost::thread_group threads;
+    boost::thread_group threadPool;
     size_t threadsCount;
     string rootDir;
 };

@@ -16,17 +16,17 @@ Connection::~Connection() {
 void Connection::start() {
     socket.async_read_some(
             boost::asio::buffer(buffer, bufferSize),
-            strand.wrap(boost::bind(&Connection::handleRead, shared_from_this(),
+            boost::bind(&Connection::handleRead, shared_from_this(),
                                     boost::asio::placeholders::error,
                                     boost::asio::placeholders::bytes_transferred)
-            )
+
     );
 }
 
 void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
-    request.parseRequest(std::string(buffer), size,
-                         std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
-                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
+//    request.parseRequest(std::string(buffer), size,
+//                         std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
+//                         std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 }
 
 void Connection::handleWrite(const boost::system::error_code& error, std::size_t bytes_transferred) {
