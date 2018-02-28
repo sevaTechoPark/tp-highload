@@ -11,6 +11,8 @@
 #include "boost/date_time/time_facet.hpp"
 #include "boost/date_time/date_facet.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <fstream>
+#include <boost/filesystem/fstream.hpp>
 
 namespace fs = boost::filesystem;
 
@@ -26,11 +28,11 @@ string urlDecode(const std::string &in) {
                     i += 2;
                 }
                 else {
-                    return false;
+//                    return false;
                 }
             }
             else {
-                return false;
+//                return false;
             }
         }
         else if (in[i] == '+') {
@@ -93,7 +95,13 @@ void Response::get(string rootDir, string path, std::function<void (const string
 
     sendHeader(headerOk + mainHeaders() + contentType + length + "\r\n\r\n");
     if (flag) {
-        int fd = open(absolutePath.c_str(), O_RDONLY);
+//        fs::ifstream in(absolutePath);
+//
+//        char buffer[16384];
+//        while (size_t count = (size_t)in.readsome(buffer, 16384)) {
+//            sendHeader(std::string(buffer, count));
+//        }
+        int fd = open(absolutePath.c_str(), O_RDONLY | O_NONBLOCK | O_ASYNC);
         sendFile(fd, filesize);
         close(fd);
     }

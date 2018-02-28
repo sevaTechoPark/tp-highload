@@ -6,7 +6,7 @@
 #include <boost/thread/thread.hpp>
 #include "Connection.h"
 
-Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), strand(io_service), request(rootDir) {
+Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), strand(io_service), request(rootDir), offset(0) {
     // todo TCP_CORK setsockopt
 }
 
@@ -16,6 +16,7 @@ Connection::~Connection() {
 
 void Connection::start() {
     socket.non_blocking(true);
+    socket.native_non_blocking(true);
 
     socket.async_read_some(
             boost::asio::buffer(buffer, bufferSize),
@@ -47,7 +48,11 @@ void Connection::sendMessage(const std::string &message) {
 }
 
 void Connection::sendFile(int fd, size_t size) {
-    off_t startOff = 0;
-    sendfile(socket.native_handle(), fd, &startOff, size);
+//    sendfile(socket.native_handle(), fd, &offset, size);
+    while (offset < size) {
+        sendfile(socket.native_handle(), fd, &offset, 16384);
+//        offset+=16384;
+    }
+    socket.async_write_some(boost::asio::null_buffers(), boost::bind(&Connection::handleWrite, shared_from_this(), _1, _2));
 }
 

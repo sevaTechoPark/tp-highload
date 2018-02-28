@@ -31,7 +31,7 @@ void Server::startAccept() {
 void Server::handleAccept(Connection::pointer new_connection, const boost::system::error_code &error) {
 
     if (!error) {
-         new_connection->start();
+        new_connection->start();
     }
 
     startAccept();

@@ -41,6 +41,7 @@ private:
 
     static const size_t bufferSize = 1024;
     char buffer[bufferSize];
+    off_t offset;
 
     Request request;
     boost::asio::io_service::strand strand;
