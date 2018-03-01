@@ -52,7 +52,7 @@ cd http-test-suite
 * Perfomance must be comparable with nginx (same order of magnitude)
 * No errors allowed
 
-## acquired skills
+## Acquired skills
 * For testing at an early stage
   * curl http://localhost:8000/hello/world
   * telnet localhost 8000
@@ -71,8 +71,8 @@ ab -n 100000 -c 100 localhost:1996/httptest/wikipedia_russia.html
 * Profile:
 ```
     g++ src/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
-    and programm must stop itself, then
     ./httpd
+    programm must stop itself, then
     gprof a.out gmon.out > analysis.txt
     
 ```
@@ -86,7 +86,10 @@ ab -n 100000 -c 100 localhost:1996/httptest/wikipedia_russia.html
     g++ src/*.cpp --lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
     ./httpd
   ```
-To use post < 1234 ```sudo ./httpd```
+To use post < 1234 
+```
+sudo ./httpd
+```
 Nginx:
 ```
 sudo nginx -c ~/dev/technopark/highload/nginx/nginx.conf
