@@ -37,6 +37,8 @@ private:
 
     void sendFile(int, size_t);
 
+    void stop();
+
     tcp::socket socket;
     boost::asio::io_service::strand strand;
 

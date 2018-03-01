@@ -11,7 +11,11 @@ Connection::Connection(boost::asio::io_service &io_service, string rootDir): soc
 }
 
 Connection::~Connection() {
-   socket.close();
+    stop();
+}
+
+void Connection::stop() {
+    socket.close();
 }
 
 void Connection::start() {
@@ -27,14 +31,21 @@ void Connection::start() {
     );
 }
 
-void Connection::handleRead(const boost::system::error_code &error_code, size_t size) {
+void Connection::handleRead(const boost::system::error_code &error, size_t size) {
+    if (error) {
+        stop();
+        return;
+    }
     request.parseRequest(std::string(buffer), size,
                          std::bind(&Connection::sendMessage, shared_from_this(), std::placeholders::_1),
                          std::bind(&Connection::sendFile, shared_from_this(), std::placeholders::_1, std::placeholders::_2));
 }
 
 void Connection::handleWrite(const boost::system::error_code& error, std::size_t bytes_transferred) {
-
+    if (error) {
+        stop();
+        return;
+    }
 }
 
 void Connection::sendMessage(const std::string &message) {
@@ -53,6 +64,8 @@ void Connection::sendFile(int fd, size_t size) {
         result = sendfile(socket.native_handle(), fd, &offset, filePartSize);
         if (result < 0) {
             std::cerr << "error: " << errno << std::endl;
+            stop();
+            return;
         }
     }
 }
