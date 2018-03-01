@@ -48,8 +48,12 @@ void Connection::sendMessage(const std::string &message) {
 }
 
 void Connection::sendFile(int fd, size_t size) {
+    ssize_t result = 0;
     while (offset < size) {
-        sendfile(socket.native_handle(), fd, &offset, filePartSize);
+        result = sendfile(socket.native_handle(), fd, &offset, filePartSize);
+        if (result < 0) {
+            std::cerr << "error: " << errno << std::endl;
+        }
     }
 }
 
