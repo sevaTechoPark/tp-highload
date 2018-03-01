@@ -67,7 +67,7 @@ Build and run
   ./httpd
   ```
 * ```
-    g++ scr/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
+    g++ src/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
     ./httpd
   ```
 To use post < 1234 ```sudo ./httpd```
@@ -77,3 +77,7 @@ sudo nginx -c ~/dev/technopark/highload/nginx/nginx.conf
 service nginx start
 ```
 change worker_processes in nginx.conf to use CPU cores
+Docker:
+```
+docker build -t papadyk-httpd https://github.com/sevaTechoPark/tp-highload
+```

@@ -2,9 +2,11 @@ FROM ubuntu:16.04
 
 RUN apt-get -y update && apt-get install libboost-all-dev
 
-ADD . .
+ENV WORK /opt/highload
+ADD Forum/ $WORK/
+WORKDIR $WORK
 
-RUN g++ scr/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
+RUN g++ src/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
 
 EXPOSE 80
 
