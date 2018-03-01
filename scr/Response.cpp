@@ -4,20 +4,18 @@
 
 #include "Response.h"
 #include "boost/filesystem/operations.hpp"
-#include "boost/filesystem/path.hpp"
 #include "boost/progress.hpp"
 #include "boost/algorithm/string.hpp"
 #include <boost/lexical_cast.hpp>
 #include "boost/date_time/time_facet.hpp"
-#include "boost/date_time/date_facet.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <fstream>
 #include <boost/filesystem/fstream.hpp>
 
 namespace fs = boost::filesystem;
 
-string urlDecode(const std::string &in) {
-    string out;
+bool urlDecode(const std::string &in, std::string &out) {
+    out.clear();
     for (std::size_t i = 0; i < in.size(); ++i) {
         if (in[i] == '%') {
             if (i + 3 <= in.size()) {
@@ -28,11 +26,11 @@ string urlDecode(const std::string &in) {
                     i += 2;
                 }
                 else {
-//                    return false;
+                    return false;
                 }
             }
             else {
-//                return false;
+                return false;
             }
         }
         else if (in[i] == '+') {
@@ -42,13 +40,13 @@ string urlDecode(const std::string &in) {
             out += in[i];
         }
     }
-    return out;
+    return true;
 }
 
 string removeQuery(const std::string &path) {
     std::size_t found = path.find_last_of('?');
-    string type = path.substr(0, found);
-    return type;
+    string withoutQuery = path.substr(0, found);
+    return withoutQuery;
 }
 
 const std::string currentDateTime() {
@@ -61,9 +59,13 @@ const std::string currentDateTime() {
     return buf;
 }
 
-void Response::get(string rootDir, string path, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile, bool flag) {
-    path = urlDecode(path);
-    path = removeQuery(path);
+void Response::get(string rootDir, string originalPath, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile, bool flag) {
+    string path, pathWithoutQuery;
+    pathWithoutQuery = removeQuery(originalPath);
+
+    if (!urlDecode(pathWithoutQuery, path)) {
+        badRequest(sendHeader); // wrong url
+    }
 
     fs::path relativePath(rootDir + path);
     bool dirExist = false;
@@ -159,6 +161,10 @@ void Response::notAllowed(std::function<void(const string &)> sendHeader) {
 
 void Response::forbidden(std::function<void(const string &)> sendHeader) {
     sendHeader(headerForbidden + mainHeaders());
+}
+
+void Response::badRequest(std::function<void(const string &)> sendHeader) {
+    sendHeader(headerBadRequest + mainHeaders());
 }
 
 string Response::mainHeaders() {

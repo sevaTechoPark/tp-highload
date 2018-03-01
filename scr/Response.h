@@ -20,10 +20,11 @@ private:
     string mainHeaders();
 
 public:
-    const string headerNotAllowed = string("HTTP/1.1 405 Method Not Allowed\r\n");
     const string headerOk = string("HTTP/1.1 200 OK\r\n");
-    const string headerNotFound = string("HTTP/1.1 404 Not Found\r\n");
+    const string headerBadRequest = string("HTTP/1.1 400 Bad Request\r\n");
     const string headerForbidden = string("HTTP/1.1 403 Forbidden\r\n");
+    const string headerNotFound = string("HTTP/1.1 404 Not Found\r\n");
+    const string headerNotAllowed = string("HTTP/1.1 405 Method Not Allowed\r\n");
 
     const string headerDate = string("Date: ");
     const string headerServer = string("Server: Seva/0.1 (Unix)\r\n");
@@ -43,6 +44,7 @@ public:
     void notFound(std::function<void (const string&)>);
     void notAllowed(std::function<void (const string&)>);
     void forbidden(std::function<void (const string&)>);
+    void badRequest(std::function<void (const string&)>);
 };
 
 
