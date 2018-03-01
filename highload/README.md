@@ -76,6 +76,13 @@ ab -n 100000 -c 100 localhost:1996/httptest/wikipedia_russia.html
     gprof a.out gmon.out > analysis.txt
     
 ```
+* if need start from scratch:
+```
+    git clone https://github.com/sevaTechoPark/tp-highload.git
+    in Clion right click on CMakeLists.txt
+    Reload CMake Project
+    
+```
 # Build and run
 * ```
   cmake .
@@ -98,5 +105,5 @@ service nginx start
 change worker_processes in nginx.conf to use CPU cores
 Docker:
 ```
-docker build -t papadyk-httpd https://github.com/sevaTechoPark/tp-highload
+docker build -t papadyk-httpd https://github.com/sevaTechoPark/tp-highload.git
 ```
