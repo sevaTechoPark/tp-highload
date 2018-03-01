@@ -6,7 +6,6 @@
 
 Server::Server(int port, string host, size_t threads): acceptor(io_service, tcp::endpoint(tcp::v4(), port)), rootDir(host), threadsCount(threads) {
     acceptor.non_blocking(true);
-    acceptor.set_option(tcp::acceptor::reuse_address(true));
 }
 
 void Server::start() {

@@ -38,13 +38,15 @@ private:
     void sendFile(int, size_t);
 
     tcp::socket socket;
+    boost::asio::io_service::strand strand;
+
+    Request request;
 
     static const size_t bufferSize = 1024;
     char buffer[bufferSize];
-    off_t offset;
 
-    Request request;
-    boost::asio::io_service::strand strand;
+    off_t offset;
+    static const size_t filePartSize = 16384; // 2^14 16 kb
 
 };
 

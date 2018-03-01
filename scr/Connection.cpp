@@ -48,11 +48,8 @@ void Connection::sendMessage(const std::string &message) {
 }
 
 void Connection::sendFile(int fd, size_t size) {
-//    sendfile(socket.native_handle(), fd, &offset, size);
     while (offset < size) {
-        sendfile(socket.native_handle(), fd, &offset, 16384);
-//        offset+=16384;
+        sendfile(socket.native_handle(), fd, &offset, filePartSize);
     }
-    socket.async_write_some(boost::asio::null_buffers(), boost::bind(&Connection::handleWrite, shared_from_this(), _1, _2));
 }
 
