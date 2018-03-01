@@ -8,7 +8,7 @@ int main() {
         string root_dir;
         int threadsCount;
 
-        std::ifstream in("../.config");
+        std::ifstream in("../httpd.conf");
         char* c = new char[100];
         std::streamsize n = 100;
 
