@@ -53,21 +53,37 @@ cd http-test-suite
 * No errors allowed
 
 ## acquired skills
-For testing at an early stage
-* curl http://localhost:8000/hello/world
-* telnet localhost 8000
-Stop the server ```sudo kill $(sudo lsof -t -i:8000) ```
-Check the server run ```sudo netstat -lnp | grep 8000```
-Test performance
-```ab -n 100000 -c 100 localhost:1996/httptest/wikipedia_russia.html```
-Build and run
+* For testing at an early stage
+  * curl http://localhost:8000/hello/world
+  * telnet localhost 8000
+* Stop the server:
+ ```
+ sudo kill $(sudo lsof -t -i:8000)
+ ```
+* Check the server run:
+```
+sudo netstat -lnp | grep 8000
+```
+* Test performance:
+```
+ab -n 100000 -c 100 localhost:1996/httptest/wikipedia_russia.html
+```
+* Profile:
+```
+    g++ src/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
+    and programm must stop itself, then
+    ./httpd
+    gprof a.out gmon.out > analysis.txt
+    
+```
+# Build and run
 * ```
   cmake .
   make
   ./httpd
   ```
 * ```
-    g++ src/*.cpp -pg -lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
+    g++ src/*.cpp --lboost_thread -lboost_filesystem -std=c++14 -lboost_system -o httpd
     ./httpd
   ```
 To use post < 1234 ```sudo ./httpd```
