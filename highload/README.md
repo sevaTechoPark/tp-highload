@@ -105,5 +105,11 @@ service nginx start
 change worker_processes in nginx.conf to use CPU cores
 Docker:
 ```
+docker images
+docker rmi 977e1290fa7b
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+
 docker build -t papadyk-httpd https://github.com/sevaTechoPark/tp-highload.git
+docker run -p 80:80 -v ./httpd.conf:/etc/httpd.conf:ro -v ./:/home/seva/dev/technopark/http-test-suite:ro --name papadyk-httpd -t papadyk-httpd
 ```

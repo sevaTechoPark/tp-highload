@@ -4,7 +4,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN apt-get -y install g++
 RUN apt-get -y install libboost-all-dev
 
-ENV WORK /opt/highload
+ENV WORK ~
+# ADD <src> <dest>
+# Инструкция ADD скопирует <src> и добавит их в контейнер по пути <dest>
 ADD /highload/ $WORK/
 WORKDIR $WORK
 
