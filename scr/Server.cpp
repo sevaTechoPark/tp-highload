@@ -28,6 +28,9 @@ void Server::startAccept() {
 }
 
 void Server::handleAccept(Connection::pointer new_connection, const boost::system::error_code &error) {
+    if (!acceptor.is_open()) {
+        return;
+    }
 
     if (!error) {
         new_connection->start();
