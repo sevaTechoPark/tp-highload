@@ -3,18 +3,13 @@
 #include "Server.h"
 
 int main() {
-    std::system("ls -la > ls.txt");
-    std::cout << std::ifstream("ls.txt").rdbuf();
-    std::system("pwd > pwd.txt");
-    std::cout << std::ifstream("pwd.txt").rdbuf();
-
     try {
         int port;
         string root_dir;
         int threadsCount;
 
-//        std::ifstream in("/etc/httpd.conf");
-        std::ifstream in("./httpd.conf");
+        std::ifstream in("/etc/httpd.conf");
+
         if (in.is_open()) {
             char* c = new char[100];
             std::streamsize n = 100;
@@ -42,7 +37,7 @@ int main() {
             delete (c);
         } else {
             port = 8000;
-            root_dir = "/home/seva/dev/technopark/http-test-suite";
+            root_dir = "/var/www/http-test-suite";
             threadsCount = 2;
         }
 

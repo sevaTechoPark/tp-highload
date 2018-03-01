@@ -64,6 +64,7 @@ void Response::head(string rootDir, string originalPath, std::function<void (con
 }
 
 void Response::get(string rootDir, string originalPath, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile, bool isSendFile) {
+
     string path, pathWithoutQuery;
     pathWithoutQuery = removeQuery(originalPath);
 

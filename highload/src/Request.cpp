@@ -7,13 +7,12 @@
 
 using std::string;
 using std::vector;
-using std::cout;
-using std::endl;
 
 Request::Request(string dir): rootDir(dir) {
 }
 
 void Request::parseRequest(string request, size_t size, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile) {
+
     std::istringstream iss(request);
     iss >> method;
 
