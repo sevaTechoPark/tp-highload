@@ -40,6 +40,7 @@ public:
     const string contentTypeSwf = string("Content-Type: application/x-shockwave-flash\r\n");
 
     void get(string, string, std::function<void (const string&)>, std::function<void (int, size_t)>, bool);
+    void head(string, string, std::function<void (const string&)>);
 
     void notFound(std::function<void (const string&)>);
     void notAllowed(std::function<void (const string&)>);

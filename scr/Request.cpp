@@ -10,13 +10,10 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-Request::Request(string dir) {
-    rootDir = dir;
+Request::Request(string dir): rootDir(dir) {
 }
 
 void Request::parseRequest(string request, size_t size, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile) {
-//    cout << request;
-
     std::istringstream iss(request);
     iss >> method;
 
@@ -35,10 +32,10 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss >> contentLength;
 
     if (method == GET) {
-        response.get(rootDir, url, sendHeader, sendFile, true);
+        response.get(rootDir, url, sendHeader, std::move(sendFile), true);
         return;
     } else if (method == HEAD) {
-        response.get(rootDir, url, sendHeader, sendFile, false);
+        response.head(rootDir, url, sendHeader);
     }
 
 }

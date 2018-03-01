@@ -59,7 +59,11 @@ const std::string currentDateTime() {
     return buf;
 }
 
-void Response::get(string rootDir, string originalPath, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile, bool flag) {
+void Response::head(string rootDir, string originalPath, std::function<void (const string&)> sendHeader) {
+    get(rootDir, originalPath, sendHeader, nullptr, false);
+}
+
+void Response::get(string rootDir, string originalPath, std::function<void (const string&)> sendHeader, std::function<void (int, size_t)> sendFile, bool isSendFile) {
     string path, pathWithoutQuery;
     pathWithoutQuery = removeQuery(originalPath);
 
@@ -96,7 +100,8 @@ void Response::get(string rootDir, string originalPath, std::function<void (cons
     string length = headerContentLength + std::to_string(filesize);
 
     sendHeader(headerOk + mainHeaders() + contentType + length + "\r\n\r\n");
-    if (flag) {
+
+    if (isSendFile) {
         int fd = open(absolutePath.c_str(), O_RDONLY | O_NONBLOCK | O_ASYNC);
         sendFile(fd, filesize);
         close(fd);
