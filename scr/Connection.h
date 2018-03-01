@@ -40,7 +40,6 @@ private:
     void stop();
 
     tcp::socket socket;
-    boost::asio::io_service::strand strand;
 
     Request request;
 
