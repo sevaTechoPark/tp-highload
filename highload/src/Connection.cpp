@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <boost/thread/thread.hpp>
-#include "Connection.h"
+#include "../headers/Connection.h"
 
 Connection::Connection(boost::asio::io_service &io_service, string rootDir): socket(io_service), request(rootDir), offset(0) {
     // todo TCP_CORK setsockopt
@@ -15,7 +15,9 @@ Connection::~Connection() {
 }
 
 void Connection::stop() {
-    socket.close();
+    if (socket.is_open()) {
+        socket.close();
+    }
 }
 
 void Connection::start() {
@@ -65,8 +67,10 @@ void Connection::sendFile(int fd, size_t size) {
         result = sendfile(socket.native_handle(), fd, &offset, filePartSize);
         if (result < 0) {
             std::cerr << "error: " << errno << std::endl;
-            // stop();
-            // return;
+            if (errno == 32 || errno == 104) {
+                 stop();
+                 return;
+            }
         }
     }
 }

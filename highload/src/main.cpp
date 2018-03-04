@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include "Server.h"
+#include "../headers/Server.h"
 
 int main() {
     try {

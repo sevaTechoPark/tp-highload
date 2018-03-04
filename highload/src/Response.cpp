@@ -2,7 +2,7 @@
 // Created by seva on 18.02.18.
 //
 
-#include "Response.h"
+#include "../headers/Response.h"
 #include "boost/filesystem/operations.hpp"
 #include "boost/progress.hpp"
 #include "boost/algorithm/string.hpp"
@@ -103,7 +103,7 @@ void Response::get(string rootDir, string originalPath, std::function<void (cons
     sendHeader(headerOk + mainHeaders() + contentType + length + "\r\n\r\n");
 
     if (isSendFile) {
-        int fd = open(absolutePath.c_str(), O_RDONLY | O_NONBLOCK | O_ASYNC);
+        int fd = open(absolutePath.c_str(), O_RDONLY);
         sendFile(fd, filesize);
         close(fd);
     }

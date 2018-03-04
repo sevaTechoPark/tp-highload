@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "Request.h"
+#include "../headers/Request.h"
 
 using std::string;
 using std::vector;
@@ -29,7 +29,7 @@ void Request::parseRequest(string request, size_t size, std::function<void (cons
     iss.ignore(100, '\n'); // \n after identity
     iss.ignore(100, ':');  // Content-Length:
     iss >> contentLength;
-
+    // todo: broken url
     if (method == GET) {
         response.get(rootDir, url, sendHeader, std::move(sendFile), true);
         return;
