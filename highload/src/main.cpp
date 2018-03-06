@@ -4,9 +4,9 @@
 
 int main() {
     try {
-        int port;
-        string root_dir;
-        int threadsCount;
+        int port = 80;
+        string root_dir = "/var/www/html";
+        int threadsCount = 256;
 
         std::ifstream in("/etc/httpd.conf");
 
@@ -25,20 +25,16 @@ int main() {
                         port = std::atoi(data.c_str());
                         break;
                     case 1:
-                        root_dir = data;
+                        threadsCount = std::atoi(data.c_str());
                         break;
                     case 2:
-                        threadsCount = std::atoi(data.c_str());
+                        root_dir = data;
                         break;
                 }
             }
 
             in.close();
             delete (c);
-        } else {
-            port = 8000;
-            root_dir = "/var/www/http-test-suite";
-            threadsCount = 2;
         }
 
         Server server(port, root_dir, threadsCount);
