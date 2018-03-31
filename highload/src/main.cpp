@@ -17,20 +17,24 @@ int main() {
             for (size_t i = 0; i < 3 && in.good(); i++) {
                 in.getline(c, n);
                 string data(c);
-                std::size_t found = data.find_last_of('=');
-                data = data.substr(found + 2);
 
-                switch (i) {
-                    case 0:
-                        port = std::atoi(data.c_str());
-                        break;
-                    case 1:
-                        threadsCount = std::atoi(data.c_str());
-                        break;
-                    case 2:
-                        root_dir = data;
-                        break;
+                std::string::iterator end_pos = std::remove(data.begin(), data.end(), ' ');
+                data.erase(end_pos, data.end());
+
+                std::size_t found = data.find_last_of('=');
+
+                if (strstr(data.substr(0, found).c_str(), "listen")) {
+                    port = std::atoi(data.substr(found + 1).c_str());
                 }
+
+                if (strstr(data.substr(0, found).c_str(), "document_root")) {
+                    root_dir = data.substr(found + 1);
+                }
+
+                if (strstr(data.substr(0, found).c_str(), "cpu_limit")) {
+                    threadsCount = std::atoi(data.substr(found + 1).c_str());
+                }
+
             }
 
             in.close();
