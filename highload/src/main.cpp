@@ -18,10 +18,7 @@ int main() {
                 in.getline(c, n);
                 string data(c);
 
-                std::string::iterator end_pos = std::remove(data.begin(), data.end(), ' ');
-                data.erase(end_pos, data.end());
-
-                std::size_t found = data.find_last_of('=');
+                std::size_t found = data.find_last_of(' ');
 
                 if (strstr(data.substr(0, found).c_str(), "listen")) {
                     port = std::atoi(data.substr(found + 1).c_str());
